@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Товары категории: {{ category.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .back-btn { display: inline-block; margin-bottom: 20px; padding: 10px 18px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+        .back-btn:hover { background: #5a6268; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .products-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        @media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+        .product-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
+        .product-card h3 { font-size: 16px; color: #333; margin: 10px 0; }
+        .product-card p { color: #28a745; font-weight: bold; margin-bottom: 15px; }
+        .details-btn { display: inline-block; padding: 8px 12px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; font-size: 14px; }
+        .details-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'home' %}" class="back-btn">← На главную</a>
+        <h1>Категория: {{ category.name }}</h1>
+
+        <div class="products-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% endif %}
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.price }} руб.</p>
+                    <a href="{% url 'product_detail' product.id %}" class="details-btn">Подробнее / Отзывы</a>
+                </div>
+            {% empty %}
+                <p>В этой категории пока нет товаров.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
